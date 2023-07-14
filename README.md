@@ -14,7 +14,7 @@ Apha - Apharesis \
 Apoc - Apocope \
 all_proc - All 29 phonological processes \
 Wfdevoice - Word-final devoicing \
-WIdevoice - Word-initial devoicing \ 
+WIdevoice - Word-initial devoicing \
 WIvoice - Word-initial voicing \
 IntVoice - Intervocalic voicing \
 Degem - Degemmination \

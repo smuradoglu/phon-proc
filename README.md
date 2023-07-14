@@ -7,7 +7,7 @@ Data and code for [Do transformer models do phonology like a linguist?](https://
 3. Generate input/output pairs for each phonological process using the FST defined by phonological_processes.lexc and phonological_processes.foma
 4. Sample input/output pairs according to experiment design. 
 
-The generated input/output pairs and data used for reported results can be found in the data folder. \
+The generated input/output pairs and data used for reported results can be found in the data folder. 
 
 Notation: \
 Apha - Apharesis \

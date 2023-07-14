@@ -1,0 +1,174 @@
+# Define Alphabet
+def V [a|e|i|o|u];
+def Vn ["~"];
+def Vhi [i|u];
+def Vmid [e|o];
+def Vlow [a];
+def C [v|b|p|t|d|f|s|m|n|w|ʒ|r|l|ʃ|j|ʧ|ŋ|k|g];
+def G [w|y];
+def Vlstops [p|t|k];
+def Vstops [b|d|g];
+def Nas [m|n|ŋ];
+def blab [b|p|f|v];
+def alv [t|d|s|r|l|ʃ|ʧ];
+def vel [k|g];
+def aff [ʧ|ʒ];
+def fric [f|s|ʃ|j];
+def stop [p|t|k|b|d|g];
+
+
+read lexc arti_over.lexc
+def Lex;
+
+def Tags "[SYNCOPE]" | "[APOCOPE]" | "[APHAERESIS]" | "[PROTHESIS]" | "[ANAPTYXIS]" | "[EXCRESCENCE]" | "[PARAGOGE]" | "[LENGTHENING]"| "[SHORTENING]"| "[RHOTACISM]" | "[HAPLOLOGY]" | "[DEVOICE]" | "[INTVOICE]" | "[NASALASS]" | "[PALATAL]" | "[DIPHTHONG]" | "[MONOTHONG]" | "[VOWELRAISE]" | "[VOWELLOWER]" | "[NASALIZATION]" | "[STRENGTH]" | "[GEMI]" | "[DEGEM]" | "[HIATUS]" | "[AFFRI]" | "[SPIRA]" | "[DEAFF]" | "[HGLIDE]"; 
+
+#Syncope (atata > atta)
+def sync V -> 0 ||.#. C* V C* _ C* V ?* "[SYNCOPE]" ;
+def sync1 "+" -> 0 ||.#. C* V C _ ?* "[SYNCOPE]";
+
+#Apocope (tata > tat)
+def apoc [V "+"] -> 0 || .#. $V _ "[APOCOPE]", V -> 0 || .#. $V _ "[APOCOPE]";
+
+#Aphaeresis (or apheresis) (atata > tata) 
+
+def apha1 V -> 0 || .#. _ ?* "[APHAERESIS]"; 
+def apha "+" -> 0 || .#. _ ?* "[APHAERESIS]"; 
+
+#Prothesis (tata > atata)
+def proth [..] -> i ||.#.  _ C ?* "[PROTHESIS]" ; 
+
+#Anaptyxis (anaptyxtic) (VCCV > VCVCV) 
+def anap1 [..] -> a || C _ C a ?* "[ANAPTYXIS]";
+def anap2 [..] -> i || C _ C i ?* "[ANAPTYXIS]";
+def anap3 [..] -> e || C _ C e ?* "[ANAPTYXIS]";
+def anap4 [..] -> o || C _ C o ?* "[ANAPTYXIS]";
+def anap5 [..] -> u || C _ C u ?* "[ANAPTYXIS]";
+
+#Excrescence (amra > ambra; anra > andra; ansa > antsa)
+
+def excrem [..] -> b ||m _ C ?* "[EXCRESCENCE]" ;
+def excres [..] -> t ||n _ s ?* "[EXCRESCENCE]" ;
+def excren [..] -> d ||n _ r ?* "[EXCRESCENCE]" ;
+
+#Paragoge (tat > tata)
+def para [..] -> u || C _ "[PARAGOGE]";
+
+#lengthening (tast > ta:t)
+
+def leng s -> "+" || ?* V _ ?* "[LENGTHENING]";
+
+#Shortening (ta: -> ta)
+
+#Shortening (ta: -> ta)
+
+def short "+" -> 0 || ?* V _ ?* "[SHORTENING]";
+def short1 i "+"  -> 0 || ?*  _ i ?* "[SHORTENING]";
+def short2 e "+"  -> 0 || ?*  _ e ?* "[SHORTENING]";
+def short3 a "+"  -> 0 || ?*  _ a ?* "[SHORTENING]";
+def short4 u "+"  -> 0 || ?*  _ u ?* "[SHORTENING]";
+def short5 o "+"  -> 0 || ?*  _ o ?* "[SHORTENING]";
+
+#Rhotacism (V[s|z]V > VrV) (s/z -> r between w/y/V)
+
+def rhot s -> r || [V|G] _ [V|G] ?* "[RHOTACISM]";
+def rhot1 s -> r || V["+"]* _ V["+"]* ?* "[RHOTACISM]";
+
+#Final-devoicing (V.stops -> dV.stops)
+
+def devoice [b:p|d:t|g:k] -> || _ "[DEVOICE]" ;
+ 
+#Intervocalic voicing (and voicing generally)
+
+def intvoice p -> b, t -> d, k -> g, f -> v ||?* V _ V ?* "[INTVOICE]" ;
+
+#Nasal assimilation (np >mp, mt > nt, nk > Îk)
+
+def nass1 [m|ŋ] -> n || _ alv ?* "[NASALASS]" ;
+def nass2 [n|ŋ] -> m || _ blab ?* "[NASALASS]" ;
+def nass3 [m|n] -> ŋ || _ vel ?* "[NASALASS]" ;
+
+#Diphthongization
+
+def diph [..] -> i || a _ ?* "[DIPHTHONG]";
+def diph1 [..] -> i || e _ ?* "[DIPHTHONG]";
+def diph2 [..] -> u || o _ ?* "[DIPHTHONG]";
+
+#Monophthongization
+
+def mono V -> 0 || V _ ?* "[MONOTHONG]";
+
+#Hiatus (pia -> pira, insert consonant which breaks up a falling vowel)
+
+def hia1 [..]-> r || Vhi _ Vmid "[HIATUS]";
+def hia2 [..]-> r || Vmid _ Vlow "[HIATUS]";
+def hia3 [..]-> r || Vhi _ Vlow "[HIATUS]";
+
+#Hiatus (pia -> pika, insert consonant which breaks up a falling vowel)
+
+def hia4 [..]-> j || i _ e "[HGLIDE]";
+def hia5 [..]-> w || u _ o "[HGLIDE]";
+def hia6 [..]-> j || e _ a "[HGLIDE]";
+def hia7 [..]-> w || o _ a "[HGLIDE]";
+def hia8 [..]-> j || i _ a "[HGLIDE]";
+def hia9 [..]-> w || u _ a "[HGLIDE]";
+
+#Vowel raising (Changes in which low vowels change to mid (or high) vowels, or mid vowels move up to high vowels) 
+
+def VRaise [e:i|o:u] -> || _?* "[VOWELRAISE]" ;
+
+#Vowel lowering (high vowels becoming mid or low vowels, or mid vowels becoming low)
+
+def Vlower [i:e|u:o] -> || _ ?* "[VOWELLOWER]" ;
+
+#Nasalization (v-> n(v) ||[NV|VN])
+
+def nasal [..] -> "~" || V _ Nas ?* "[NASALIZATION]" ;
+def nasal1 [..] -> "~" || V "+" _ Nas ?* "[NASALIZATION]" ;
+
+def gem1 b -> b b, p -> p p, t -> t t, d -> d d, f -> f f, s -> s s, m -> m m, n -> n n, w -> w w, r -> r r, l -> l l, ʃ -> ʃ ʃ, j -> j j, ʧ -> ʧ ʧ, ŋ -> ŋ ŋ, k-> k k, g -> g g, v -> v v , ʒ -> ʒ ʒ|| C* V "+" _ ?* "[GEMI]"; 
+
+def gem2 b -> b b, p -> p p, t -> t t, d -> d d, f -> f f, s -> s s, m -> m m, n -> n n, w -> w w, r -> r r, l -> l l, ʃ -> ʃ ʃ, j -> j j, ʧ -> ʧ ʧ, ŋ -> ŋ ŋ, k-> k k, g -> g g, v -> v v , ʒ -> ʒ ʒ|| C* V  _ ?* "[GEMI]"; 
+
+#Degemination (CC -> C)
+
+def degem b b -> b, p p -> p, t t -> t, d d -> d, f f -> f, s s -> s, m m -> m, n n -> n, w w -> w, j j -> j, r r -> r, l l -> l, ʃ ʃ -> ʃ, j j -> j, ʧ ʧ -> ʧ, ŋ ŋ -> ŋ, k k -> k, g g -> g, v v -> v, ʒ ʒ -> ʒ || C* V ?* _V ?* "[DEGEM]"; 
+
+###Lenition (weakening)
+
+
+#Affrication (stop -> affricate, t ->ts /_j and k > č /__i, e) 
+def aff1 k -> ʧ || V* C* V+ _ ?* "[AFFRI]" ;
+def aff2 d -> ʒ || V* C* V+ _ ?* "[AFFRI]" ;
+
+
+#Palatalization (often takes place before or after i and j or before other front vowels, ne is the typical change of a velar or alveolar sound to a palato-alveolar sound, as in k > č, t > č , s > S)
+
+def pal1 k -> ʧ || _ [i|e] ?* "[PALATAL]" ;
+def pal2 d -> ʒ || _ [i|e] ?* "[PALATAL]" ;
+
+
+#Spirantization (fricativization: an affricate will be weakened (lenited) to a fricative, or a stop will become a fricative.)
+
+def spir1 p -> f ||  _ ?* "[SPIRA]" ;
+def spir2 t -> s ||  _ ?* "[SPIRA]" ;
+
+#Deaffrication (affricate becomes fricative)
+
+def deaff1 ʧ -> ʃ ||  _ ?* "[DEAFF]" ;
+
+###Strengthening (affricate ->stop, fricative -> affricate)
+
+def str1 ʧ -> k || _ [i|e] ?* "[STRENGTH]" ;
+def str2 ʒ -> g || _ [i|e] ?* "[STRENGTH]" ;
+def str3 ʃ -> ʧ ||  _ ?* "[STRENGTH]" ;
+
+##Haplology
+
+def Haplo v a v a -> v a, v e v e -> v e, v i v i -> v i, v o v o -> v o, v u v u -> v u, b a b a -> b a, b e b e -> b e, b i b i -> b i, b o b o -> b o, b u b u -> b u, p a p a -> p a, p e p e -> p e, p i p i -> p i, p o p o -> p o, p u p u -> p u, t a t a -> t a, t e t e -> t e, t i t i -> t i, t o t o -> t o, t u t u -> t u, d a d a -> d a, d e d e -> d e, d i d i -> d i, d o d o -> d o, d u d u -> d u, f a f a -> f a, f e f e -> f e, f i f i -> f i, f o f o -> f o, f u f u -> f u, s a s a -> s a, s e s e -> s e, s i s i -> s i, s o s o -> s o, s u s u -> s u, m a m a -> m a, m e m e -> m e, m i m i -> m i, m o m o -> m o, m u m u -> m u, n a n a -> n a, n e n e -> n e, n i n i -> n i, n o n o -> n o, n u n u -> n u, w a w a -> w a, w e w e -> w e, w i w i -> w i, w o w o -> w o, w u w u -> w u, j a j a -> j a, j e j e -> j e, j i j i -> j i, j o j o -> j o, j u j u -> j u, r a r a -> r a, r e r e -> r e, r i r i -> r i, r o r o -> r o, r u r u -> r u, l a l a -> l a, l e l e -> l e, l i l i -> l i, l o l o -> l o, l u l u -> l u, ʃ a ʃ a -> ʃ a, ʃ e ʃ e -> ʃ e, ʃ i ʃ i -> ʃ i, ʃ o ʃ o -> ʃ o, ʃ u ʃ u -> ʃ u, ʒ a ʒ a -> ʒ a, ʒ e ʒ e -> ʒ e, ʒ i ʒ i -> ʒ i, ʒ o ʒ o -> ʒ o, ʒ u ʒ u -> ʒ u, ʧ a ʧ a -> ʧ a, ʧ e ʧ e -> ʧ e, ʧ i ʧ i -> ʧ i, ʧ o ʧ o -> ʧ o, ʧ u ʧ u -> ʧ u, ŋ a ŋ a -> ŋ a, ŋ e ŋ e -> ŋ e, ŋ i ŋ i -> ŋ i, ŋ o ŋ o -> ŋ o, ŋ u ŋ u -> ŋ u, k a k a -> k a, k e k e -> k e, k i k i -> k i, k o k o -> k o, k u k u -> k u, g a g a -> g a, g e g e -> g e, g i g i -> g i, g o g o -> g o, g u g u -> g u  || _ ?* "[HAPLOLOGY]" ;
+ 
+def cleanup Tags -> 0;
+
+def Grammar Lex .o. sync .o. sync1 .o. apoc .o. apha1 .o. apha .o. proth .o.  anap1 .o. anap2 .o. anap3 .o. anap4 .o. anap5 .o. excrem .o. excres .o. excren .o. para .o. leng .o. short1 .o. short2 .o. short3 .o. short4 .o. short5 .o. rhot .o. rhot1 .o. nass1 .o. nass2 .o. nass3 .o. nasal .o. nasal1 .o. mono .o. diph .o. diph1 .o. diph2 .o.  hia1 .o. hia2 .o. hia3 .o. hia4 .o. hia5 .o. hia6 .o. hia7 .o. hia8 .o. hia9 .o. devoice .o. intvoice .o. Vlower .o. VRaise .o. gem1 .o. gem2 .o. degem .o. aff1 .o. aff2 .o. pal1 .o. pal2 .o. spir1 .o. spir2 .o. deaff1 .o. str1 .o. str2 .o. str3 .o. Haplo .o. cleanup ;
+
+regex Grammar;
+

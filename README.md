@@ -9,10 +9,10 @@ Data and code for [Do transformer models do phonology like a linguist?](https://
 
 The generated input/output pairs and data used for reported results can be found in the data folder.
 
-Notation: 
-Apha - Apharesis
-Apoc - Apocope
-all_proc - All 29 phonological processes
+Notation: \
+Apha - Apharesis \
+Apoc - Apocope \
+all_proc - All 29 phonological processes \
 Wfdevoice - Word-final devoicing
 WIdevoice - Word-initial devoicing
 WIvoice - Word-initial voicing

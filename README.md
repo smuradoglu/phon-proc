@@ -21,5 +21,4 @@ Degem - Degemmination \
 Gem - Gemmination \
 Vshort - Vowel Shortening \
 Vlength - Vowel lengthening \
-Haplo - Haplology \
-
+Haplo - Haplology 
